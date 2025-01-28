@@ -25,14 +25,14 @@ namespace array {
         pos PredLista(pos) const;
 
         // setters
-        void ScriviLista(T, pos);
-        void InsLista(T, pos);
+        void ScriviLista(const T&, pos);
+        void InsLista(const T&, pos);
         void CancLista(pos);
 
         // utili
         void StampaLista() const;
 
-    private:
+    protected:
         int size;
         nodo* testa;
         nodo* coda;
@@ -63,8 +63,7 @@ namespace array {
 
     template<typename T>
     typename Lista<T>::pos Lista<T>::PrimoLista() const {
-        assert(!ListaVuota() && "La lista è vuota. Nessun primo elemento.");
-        return 1;
+        return (1);
     }
 
     template<typename T>
@@ -111,7 +110,7 @@ namespace array {
     /*=================================*/
 
     template<typename T>
-    void Lista<T>::ScriviLista(T data, pos p) {
+    void Lista<T>::ScriviLista(const T& data, pos p) {
         assert(p >= 1 && p <= size && "Posizione non valida.");
 
         nodo* current = testa;
@@ -122,7 +121,7 @@ namespace array {
     }
 
     template<typename T>
-    void Lista<T>::InsLista(T data, pos p) {
+    void Lista<T>::InsLista(const T& data, pos p) {
         assert(p >= 1 && p <= size + 1 && "Posizione non valida.");
 
         nodo* nuovoNodo = new nodo(data);
