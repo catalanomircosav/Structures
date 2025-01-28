@@ -1,32 +1,47 @@
-#include "Array/Pila.h"
+#include "Array/Coda.h"
 
 int main() {
-    array::Pila<int> pila;
+    // Creazione di una coda vuota
+    array::Coda<int> coda;
+    std::cout << "Creazione di una coda vuota." << std::endl;
 
-    std::cout << "Creazione di una pila vuota." << std::endl;
+    // Inserimento di 10, 20, 30 nella coda
+    std::cout << "Inserimento di 10, 20, 30 nella coda." << std::endl;
+    coda.InCoda(10);
+    coda.InCoda(20);
+    coda.InCoda(30);
 
-    std::cout << "Inserimento di 10, 20, 30 nella pila." << std::endl;
-    pila.InPila(10);
-    pila.InPila(20);
-    pila.InPila(30);
+    // Stampa la coda
+    coda.StampaLista();
 
-    pila.StampaLista();
+    // Mostra l'elemento in testa alla coda
+    std::cout << "L'elemento in testa alla coda è: " << coda.LeggiCoda() << std::endl;
 
-    std::cout << "L'elemento in cima alla pila è: " << pila.LeggiPila() << std::endl;
+    // Rimuovo l'elemento in testa alla coda
+    std::cout << "Rimuovo l'elemento in testa alla coda." << std::endl;
+    coda.FuoriCoda();
 
-    std::cout << "Rimuovo l'elemento in cima alla pila." << std::endl;
-    pila.FuoriPila();
+    // Mostra l'elemento in testa alla coda dopo la rimozione
+    std::cout << "L'elemento in testa alla coda ora è: " << coda.LeggiCoda() << std::endl;
 
-    std::cout << "L'elemento in cima alla pila ora è: " << pila.LeggiPila() << std::endl;
+    // Inserimento di 40 nella coda
+    std::cout << "Inserimento di 40 nella coda." << std::endl;
+    coda.InCoda(40);
 
-    std::cout << "Rimuovo tutti gli elementi dalla pila." << std::endl;
-    while (!pila.PilaVuota()) {
-        std::cout << "Rimosso: " << pila.LeggiPila() << std::endl;
-        pila.FuoriPila();
+    // Stampa la coda dopo l'inserimento di 40
+    std::cout << "Stato della coda dopo l'inserimento di 40:" << std::endl;
+    coda.StampaLista();
+
+    // Rimuovo tutti gli elementi dalla coda
+    std::cout << "Rimuovo tutti gli elementi dalla coda." << std::endl;
+    while (!coda.CodaVuota()) {
+        std::cout << "Rimosso: " << coda.LeggiCoda() << std::endl;
+        coda.FuoriCoda();
     }
 
-    if (pila.PilaVuota()) {
-        std::cout << "La pila è ora vuota." << std::endl;
+    // Verifica se la coda è vuota
+    if (coda.CodaVuota()) {
+        std::cout << "La coda è ora vuota." << std::endl;
     }
 
     return 0;

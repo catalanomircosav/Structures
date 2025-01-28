@@ -39,11 +39,15 @@ namespace array {
     };
 
     /*=================================*/
-    /*========== COSTRUTTORI ==========*/
+    /*========== COSTRUTTORE ==========*/
     /*=================================*/
 
     template<typename T>
     Lista<T>::Lista() : testa(nullptr), coda(nullptr), size(0) {}
+
+    /*=================================*/
+    /*========== DISTRUTTORE ==========*/
+    /*=================================*/
 
     template<typename T>
     Lista<T>::~Lista() {
@@ -63,12 +67,11 @@ namespace array {
 
     template<typename T>
     typename Lista<T>::pos Lista<T>::PrimoLista() const {
-        return (1);
+        return 1;
     }
 
     template<typename T>
     typename Lista<T>::pos Lista<T>::UltimoLista() const {
-        assert(!ListaVuota() && "La lista è vuota. Nessun ultimo elemento.");
         return size;
     }
 

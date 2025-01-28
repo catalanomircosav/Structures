@@ -5,8 +5,11 @@ namespace array {
     template<typename T>
     class Pila : public Lista<T> {
         public:
+
+            // costruttore e distruttore
             Pila();
             ~Pila();
+
             // observer
             bool PilaVuota() const;
 
@@ -23,9 +26,7 @@ namespace array {
     /*=================================*/
     
     template<typename T>
-    Pila<T>::Pila() {
-        Lista<T>();
-    }
+    Pila<T>::Pila() : Lista<T>() { }
     
     template<typename T>
     Pila<T>::~Pila() {}
@@ -59,6 +60,6 @@ namespace array {
     
     template<typename T>
     T Pila<T>::LeggiPila() {
-        return this->LeggiLista(this->PrimoLista());
+        return this->LeggiLista(this->UltimoLista());
     }
 }
