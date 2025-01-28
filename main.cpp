@@ -1,48 +1,65 @@
-#include "Array/Coda.h"
+#include <iostream>
+#include "Tree/BTree.h" // Assicurati che il percorso al file sia corretto
+using namespace tree;
 
 int main() {
-    // Creazione di una coda vuota
-    array::Coda<int> coda;
-    std::cout << "Creazione di una coda vuota." << std::endl;
 
-    // Inserimento di 10, 20, 30 nella coda
-    std::cout << "Inserimento di 10, 20, 30 nella coda." << std::endl;
-    coda.InCoda(10);
-    coda.InCoda(20);
-    coda.InCoda(30);
+    // Creazione di un albero binario di interi
+    BTree<int> albero;
 
-    // Stampa la coda
-    coda.StampaLista();
+    std::cout << "Inserimento nodi nell'albero...\n";
+    albero.InserisciNodo(10);
+    albero.InserisciNodo(5);
+    albero.InserisciNodo(15);
+    albero.InserisciNodo(3);
+    albero.InserisciNodo(7);
 
-    // Mostra l'elemento in testa alla coda
-    std::cout << "L'elemento in testa alla coda è: " << coda.LeggiCoda() << std::endl;
+    // Stampa dell'albero in ordine diverso
+    std::cout << "Stampa Pre-Order:\n";
+    albero.StampaAlberoPreOrder(albero.BinRadice(), 0);
 
-    // Rimuovo l'elemento in testa alla coda
-    std::cout << "Rimuovo l'elemento in testa alla coda." << std::endl;
-    coda.FuoriCoda();
+    std::cout << "Stampa In-Order:\n";
+    albero.StampaAlberoInOrder(albero.BinRadice(), 0);
 
-    // Mostra l'elemento in testa alla coda dopo la rimozione
-    std::cout << "L'elemento in testa alla coda ora è: " << coda.LeggiCoda() << std::endl;
+    std::cout << "Stampa Post-Order:\n";
+    albero.StampaAlberoPostOrder(albero.BinRadice(), 0);
 
-    // Inserimento di 40 nella coda
-    std::cout << "Inserimento di 40 nella coda." << std::endl;
-    coda.InCoda(40);
-
-    // Stampa la coda dopo l'inserimento di 40
-    std::cout << "Stato della coda dopo l'inserimento di 40:" << std::endl;
-    coda.StampaLista();
-
-    // Rimuovo tutti gli elementi dalla coda
-    std::cout << "Rimuovo tutti gli elementi dalla coda." << std::endl;
-    while (!coda.CodaVuota()) {
-        std::cout << "Rimosso: " << coda.LeggiCoda() << std::endl;
-        coda.FuoriCoda();
+    // Verifica se l'albero è vuoto
+    if (albero.BinAlberoVuoto()) {
+        std::cout << "L'albero è vuoto.\n";
+    } else {
+        std::cout << "L'albero non è vuoto.\n";
     }
 
-    // Verifica se la coda è vuota
-    if (coda.CodaVuota()) {
-        std::cout << "La coda è ora vuota." << std::endl;
+    // Lettura del valore della radice
+    auto radice = albero.BinRadice();
+    if (radice) {
+        std::cout << "Valore della radice: " << albero.LeggiNodo(radice) << "\n";
     }
+
+    // Stampa del figlio sinistro e destro della radice
+    auto sinistro = albero.FiglioSinistro(radice);
+    if (sinistro) {
+        std::cout << "Figlio sinistro della radice: " << albero.LeggiNodo(sinistro) << "\n";
+    } else {
+        std::cout << "La radice non ha un figlio sinistro.\n";
+    }
+
+    auto destro = albero.FiglioDestro(radice);
+    if (destro) {
+        std::cout << "Figlio destro della radice: " << albero.LeggiNodo(destro) << "\n";
+    } else {
+        std::cout << "La radice non ha un figlio destro.\n";
+    }
+
+    // Cancella sottoalbero a partire da un nodo
+    std::cout << "Cancellazione del sottoalbero radicato nel figlio sinistro della radice...\n";
+    if (sinistro) {
+        albero.CancellaSottoAlbero(sinistro);
+    }
+
+    std::cout << "Stampa In-Order dopo cancellazione:\n";
+    albero.StampaAlberoInOrder(albero.BinRadice(), 0);
 
     return 0;
 }
