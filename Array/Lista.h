@@ -23,6 +23,7 @@ namespace array {
         T LeggiLista(pos) const;
         pos SuccLista(pos) const;
         pos PredLista(pos) const;
+        int leggiSize() const;
 
         // setters
         void ScriviLista(const T&, pos);
@@ -106,6 +107,11 @@ namespace array {
     typename Lista<T>::pos Lista<T>::PredLista(pos p) const {
         assert(p > 1 && p <= size && "Posizione non valida per predLista.");
         return p - 1;
+    }
+
+    template<typename T>
+    int Lista<T>::leggiSize() const {
+        return size;
     }
 
     /*=================================*/
