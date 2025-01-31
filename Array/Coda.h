@@ -50,7 +50,7 @@ namespace array {
     void Coda<T>::FuoriCoda() {
         assert(!CodaVuota() && "Coda vuota.");
 
-        this->CancLista(this->PrimoLista());
+        this->CancLista(this->UltimoLista());
     }
     
     template<typename T>

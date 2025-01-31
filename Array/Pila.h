@@ -60,6 +60,6 @@ namespace array {
     
     template<typename T>
     T Pila<T>::LeggiPila() {
-        return this->LeggiLista(this->UltimoLista());
+        return this->LeggiLista(this->PrimoLista());
     }
 }
