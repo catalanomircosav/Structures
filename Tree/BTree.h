@@ -1,5 +1,5 @@
 #pragma once
-#include "Nodo.h"
+#include "BTree_Nodo.h"
 
 namespace btree {
     template<typename T>
@@ -19,9 +19,9 @@ namespace btree {
 
             // getter
             nodo* BinRadice() const;
-            nodo* BinPadre(nodo*) const;
-            nodo* FiglioSinistro(nodo*) const;
-            nodo* FiglioDestro(nodo*) const;
+            nodo* BinPadre(nodo*);
+            nodo* FiglioSinistro(nodo*);
+            nodo* FiglioDestro(nodo*);
             T LeggiNodo(nodo*);
 
             // setter
@@ -97,7 +97,7 @@ namespace btree {
     }
     
     template<typename T>
-    typename BTree<T>::nodo* BTree<T>::BinPadre(nodo* u) const {
+    typename BTree<T>::nodo* BTree<T>::BinPadre(nodo* u) {
         assert(!(this->BinAlberoVuoto()) && "L'albero e' vuoto.\n");
         assert(this->TrovaNodo(u) && "Il nodo non e' presente nell'albero.\n");
         assert(this->CalcolaLivelloNodo(u) > 0 && "Il nodo non ha padre.\n");
@@ -106,7 +106,7 @@ namespace btree {
     }
     
     template<typename T>
-    typename BTree<T>::nodo* BTree<T>::FiglioSinistro(nodo* s) const { 
+    typename BTree<T>::nodo* BTree<T>::FiglioSinistro(nodo* s) { 
         assert(!(this->BinAlberoVuoto()) && "L'albero e' vuoto.\n");
         assert(this->TrovaNodo(s) && "Il nodo non e' presente nell'albero.\n");
         assert(s->getSx() && "Il nodo non ha un figlio sinistro.\n");
@@ -115,7 +115,7 @@ namespace btree {
     }
     
     template<typename T>
-    typename BTree<T>::nodo* BTree<T>::FiglioDestro(nodo* d) const { 
+    typename BTree<T>::nodo* BTree<T>::FiglioDestro(nodo* d) { 
         assert(this->BinAlberoVuoto() && "L'albero e' vuoto.\n");
         assert(this->TrovaNodo(d) && "Il nodo non e' presente nell'albero.\n");
         assert(d->getDx() && "Il nodo non ha un figlio destro.\n");
@@ -180,7 +180,7 @@ namespace btree {
     /*=================================*/
 
     template<typename T>
-    bool BTree<T>::TrovaNodo(nodo* u) {
+    bool BTree<T>::TrovaNodo(nodo* u){
         assert(!(this->BinAlberoVuoto()) && "L'albero e' vuoto.\n");
 
         return TrovaNodoRicorsivo(radice, u);
