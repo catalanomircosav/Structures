@@ -2,95 +2,148 @@
 #include <iostream>
 #include <cassert>
 
-namespace tree {
+namespace btree {
     template<typename T>
     class Nodo {
         public:
-            typedef Nodo<T> pos;
-            // costruttore e distruttore
-            Nodo();
-            Nodo(const T&);
+            typedef Nodo<T> nodo;
+
+            // costruttore
+            Nodo();                 // costruttore di default
+            Nodo(const T&);         // costruttore parametrico
+            Nodo(const nodo&);      // costruttore di copia
+            Nodo(nodo&&) noexcept;  // costruttore di spostamento
             ~Nodo();
 
-            // getters
-            pos* getPadre() const;
-            pos* getSx() const;
-            pos* getDx() const;
+            // getter
             T getData() const;
+            nodo* getPadre() const;
+            nodo* getSx() const;
+            nodo* getDx() const;
 
-            // setters
-            void setPadre(pos*);
-            void setSx(pos*);
-            void setDx(pos*);
-            void setData(const T&);
+            // setter
+            void setData(T*);
+            void setPadre(nodo*);
+            void setSx(nodo*);
+            void setDx(nodo*);
 
+            // utils
+            void stampaNodo();
+
+            // overload di operatori
+            nodo& operator=(const nodo&);       // assegnamento per copia
+            nodo& operator=(nodo&&) noexcept;   // assegnamento per spostamento
+
+            bool operator==(const nodo&);
+            bool operator!=(const nodo&);
+
+        
         private:
             T data;
-            pos* padre;
-            pos *sx, *dx;
+            nodo *padre;
+            nodo *sx, *dx;
     };
+
     /*=================================*/
-    /*========== COSTRUTTORI ==========*/
+    /*========== COSTRUTTORE ==========*/
     /*=================================*/
+    
+    template<typename T>
+    Nodo<T>::Nodo() : data(T()), padre(nullptr), sx(nullptr), dx(nullptr) {}
 
     template<typename T>
-    Nodo<T>::Nodo() : padre(nullptr), sx(nullptr), dx(nullptr), data{} {}
+    Nodo<T>::Nodo(const T& data) : data(data), padre(nullptr), sx(nullptr), dx(nullptr) {}
 
     template<typename T>
-    Nodo<T>::Nodo(const T& d) : padre(nullptr), sx(nullptr), dx(nullptr), data(d) {}
+    Nodo<T>::Nodo(const nodo& other);
+
+    template<typename T>
+    Nodo<T>::Nodo(nodo&& other) noexcept;
 
     /*=================================*/
     /*========== DISTRUTTORE ==========*/
     /*=================================*/
-
+    
     template<typename T>
     Nodo<T>::~Nodo() { }
 
     /*=================================*/
-    /*============ GETTERS ============*/
+    /*============ GETTER =============*/
+    /*=================================*/
+    
+    template<typename T>
+    T Nodo<T>::getData() const { return data; }
+
+    template<typename T>
+    typename Nodo<T>::nodo* Nodo<T>::getPadre() const { return padre; }
+
+    template<typename T>
+    typename Nodo<T>::nodo* Nodo<T>::getDx() const { return dx; }
+
+    template<typename T>
+    typename Nodo<T>::nodo* Nodo<T>::getSx() const { return sx; }
+
+    /*=================================*/
+    /*============ SETTER =============*/
+    /*=================================*/
+    
+    template<typename T>
+    void Nodo<T>::setData(T* d) { this->data = d; }
+    
+    template<typename T>
+    void Nodo<T>::setPadre(nodo* p) { this->padre = p; }
+    
+    template<typename T>
+    void Nodo<T>::setSx(nodo* s) { this->sx = s; }
+    
+    template<typename T>
+    void Nodo<T>::setDx(nodo* d) { this->dx = d; }
+
+    /*=================================*/
+    /*============= UTILS =============*/
     /*=================================*/
 
     template<typename T>
-    typename Nodo<T>::pos* Nodo<T>::getPadre() const {
-        return padre;
-    }
-    
-    template<typename T>
-    typename Nodo<T>::pos* Nodo<T>::getSx() const {
-        return sx;
-    }
-    
-    template<typename T>
-    typename Nodo<T>::pos* Nodo<T>::getDx() const {
-        return dx;
-    }
-
-    template<typename T>
-    T Nodo<T>::getData() const {
-        return data;
-    }
+    void Nodo<T>::stampaNodo() { std::cout << data << std::endl; }
 
     /*=================================*/
-    /*============ SETTERS ============*/
+    /*=========== OPERATORI ===========*/
     /*=================================*/
 
     template<typename T>
-    void Nodo<T>::setPadre(pos* p) {
-        this->padre = p;
+    typename Nodo<T>::nodo& Nodo<T>::operator=(const nodo& other) {
+        if(this != other) {
+            this->setData(other.getData());
+            this->setPadre(other.getPadre());
+            this->setSx(other.getSx());
+            this->setDx(other.getDx());
+        }
+        return *this;
+    }
+
+    template<typename T>
+    typename Nodo<T>::nodo& Nodo<T>::operator=(nodo&& other) noexcept {
+        if(this != other) {
+            data = std::move(other.data);
+            this->setPadre(other.getPadre());
+            this->setSx(other.getSx());
+            this->setDx(other.getDx());
+
+            other.setPadre(nullptr);
+            other.setSx(nullptr);
+            other.setDx(nullptr);
+        }
+        return *this;
+    }
+
+    template<typename T>
+    bool Nodo<T>::operator==(const nodo& n) {
+        return (this->getData() == n.getData());
+    }
+
+    template<typename T>
+    bool Nodo<T>::operator!=(const nodo& n) {
+        return (this->getData() != n.getData());
     }
     
-    template<typename T>
-    void Nodo<T>::setSx(pos* sx) {
-        this->sx = sx;
-    }
-    
-    template<typename T>
-    void Nodo<T>::setDx(pos* dx) {
-        this->dx = dx;
-    }
-    
-    template<typename T>
-    void Nodo<T>::setData(const T& d) {
-        this->data = d;
-    }
-}
+} // namespace btree

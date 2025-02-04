@@ -1,65 +1,47 @@
 #include <iostream>
-#include "Tree/BTree.h" // Assicurati che il percorso al file sia corretto
-using namespace tree;
+#include "Tree/BTree.h"
+using namespace btree;
 
 int main() {
+    // Creo alcuni nodi (ipotizzando che la classe Nodo abbia un costruttore che accetta un dato)
+    Nodo<int>* root = new Nodo<int>(1);        // Nodo radice con valore 1
+    Nodo<int>* leftChild = new Nodo<int>(2);   // Nodo sinistro con valore 2
+    Nodo<int>* rightChild = new Nodo<int>(3);  // Nodo destro con valore 3
+    Nodo<int>* leftLeft = new Nodo<int>(4);    // Nodo sinistro sinistro con valore 4
+    Nodo<int>* rightLeft = new Nodo<int>(5);   // Nodo destro sinistro con valore 5
 
-    // Creazione di un albero binario di interi
-    BTree<int> albero;
+    Nodo<int>* root1 = new Nodo<int>(6);
 
-    std::cout << "Inserimento nodi nell'albero...\n";
-    albero.InserisciNodo(10);
-    albero.InserisciNodo(5);
-    albero.InserisciNodo(15);
-    albero.InserisciNodo(3);
-    albero.InserisciNodo(7);
+    // Collegamento tra i nodi
+    root->setSx(leftChild);
+    root->setDx(rightChild);
+    leftChild->setSx(leftLeft);
+    rightChild->setDx(rightLeft);
 
-    // Stampa dell'albero in ordine diverso
-    std::cout << "Stampa Pre-Order:\n";
-    albero.StampaAlberoPreOrder(albero.BinRadice(), 0);
+    // Creo l'albero con la radice
+    BTree<int> albero(root);
 
-    std::cout << "Stampa In-Order:\n";
-    albero.StampaAlberoInOrder(albero.BinRadice(), 0);
+    // Test delle funzioni di stampa
+    BTree<int> albero1(root1);
 
-    std::cout << "Stampa Post-Order:\n";
-    albero.StampaAlberoPostOrder(albero.BinRadice(), 0);
+    BTree<int> risult = albero.CostrBinAlbero(albero1);
 
-    // Verifica se l'albero è vuoto
-    if (albero.BinAlberoVuoto()) {
-        std::cout << "L'albero è vuoto.\n";
-    } else {
-        std::cout << "L'albero non è vuoto.\n";
-    }
+    std::cout << "Albero completo:\n";
+    risult.StampaAlberoPostOrder(risult.BinRadice(), 0);  // Pre-order stampa
+    
+    std::cout << "Stampa in Pre-Order:\n";
+    risult.StampaAlberoPreOrder(risult.BinRadice(), 0);  // Pre-order stampa
 
-    // Lettura del valore della radice
-    auto radice = albero.BinRadice();
-    if (radice) {
-        std::cout << "Valore della radice: " << albero.LeggiNodo(radice) << "\n";
-    }
+    std::cout << "\nStampa in In-Order:\n";
+    risult.StampaAlberoInOrder(risult.BinRadice(), 0);   // In-order stampa
 
-    // Stampa del figlio sinistro e destro della radice
-    auto sinistro = albero.FiglioSinistro(radice);
-    if (sinistro) {
-        std::cout << "Figlio sinistro della radice: " << albero.LeggiNodo(sinistro) << "\n";
-    } else {
-        std::cout << "La radice non ha un figlio sinistro.\n";
-    }
+    std::cout << "\nStampa in Post-Order:\n";
+    risult.StampaAlberoPostOrder(risult.BinRadice(), 0);  // Post-order stampa
 
-    auto destro = albero.FiglioDestro(radice);
-    if (destro) {
-        std::cout << "Figlio destro della radice: " << albero.LeggiNodo(destro) << "\n";
-    } else {
-        std::cout << "La radice non ha un figlio destro.\n";
-    }
+    // Test altre funzioni
+    std::cout << "\nVerifica se l'albero è vuoto: " << (albero.BinAlberoVuoto() ? "Sì" : "No") << std::endl;
 
-    // Cancella sottoalbero a partire da un nodo
-    std::cout << "Cancellazione del sottoalbero radicato nel figlio sinistro della radice...\n";
-    if (sinistro) {
-        albero.CancellaSottoAlbero(sinistro);
-    }
-
-    std::cout << "Stampa In-Order dopo cancellazione:\n";
-    albero.StampaAlberoInOrder(albero.BinRadice(), 0);
+    std::cout << "\nLeggi dato del nodo radice: " << albero.LeggiNodo(albero.BinRadice()) << std::endl;
 
     return 0;
 }
